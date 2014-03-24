@@ -1,4 +1,4 @@
 MemCoin_474-2135_Andrews-Bornstein-Pagano
 =========================================
 
-MEMCoin will indicate if a bitcoin wallet exists, will pull the contents of memory and search for indicators that might advance access. 
+MEMCoin in its simplest form is a tool that images memory and searches for a regular expression within the strings of memory. The tool is looking for a regular expression that may indicate transactions within the bitcoin wallet called MULTIBIT. If the tool finds this regular expression within memory it is possile to recover the plain-text password of the wallet itself. After recovering the pasword it is possible to confiscate all of the bitcoins within the wallet. This tool may also attempt to leverage other tools that allow public address tracking of where the bitcoins have been. Through confiscation and tracking it may be possible for us to obtain more information on what a user was buying and selling with bitcoins.

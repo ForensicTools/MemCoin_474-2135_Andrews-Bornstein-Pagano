@@ -5,9 +5,6 @@ use warnings;
 #We can remove at any time
 my $option = $ARGV[0];
 
-
-
-
 if ($option eq "-f")
 {
 	fmemSetup();
@@ -35,7 +32,6 @@ imageMemory($option);
 memorySearch();
 
 sub fmemSetup{
-
 	system("pwd");
 	#if sudo install fmem
 	chdir("fmem_1.6-0/");
@@ -49,11 +45,8 @@ sub fmemSetup{
 	chdir("InvestigationInfo");
 	system("mkdir InvestigationInfo");
 	system("pwd");
-
-
 }
 sub limeSetup{
-
 	system("pwd");
 	#if sudo install fmem
 	chdir("src/");
@@ -67,8 +60,6 @@ sub limeSetup{
 	chdir("InvestigationInfo");
 	system("mkdir InvestigationInfo");
 	system("pwd");
-
-
 }
 
 sub searchForWallets{
@@ -78,10 +69,9 @@ sub searchForWallets{
 
 }
 
-sub imageMemory {
+sub imageMemory{	
+	my $kofile;
 
-	#get passed arguments
-	my $option = @_;
 	#grab an image
 	print "Grabbing an Image of Memory...\n";
 	
@@ -92,12 +82,20 @@ sub imageMemory {
 	}
 	elsif ($option eq "-l")
 	{
+		chdir("..");
 		chdir("src/");
-		system("insmod lime-2.6.32-431.el6.x86_64.ko path=investigatedcompmem format=lime");
+
+		#find the .ko file made by lime
+		$kofile = `ls | grep \*.ko`;
+		chomp($kofile);
+
+		system("insmod $kofile path=../InvestigationInfo/investigatedcompmem.lime format=lime");
+		system("rmmod lime");
 		print "MEMCoin is making sense of all this data...\n";
 	}
-	system("cat investigatedcompmem | strings > memstrings");
-	
+	chdir("..");
+	chdir("InvestigationInfo");
+	system("cat investigatedcompmem.lime | strings > memstrings");
 }
 
 sub memorySearch{
@@ -115,16 +113,12 @@ sub memorySearch{
 	 
 	while (my $line = <$fh>) 
 	{
-	   
 	   chomp $line;
 
 	   if($flag > 0)
 	   {
-
 		print FILE "$line\n";	
 		$flag--;
-	
-
 	   }
 
 	  #regex not listed
@@ -132,9 +126,7 @@ sub memorySearch{
 	   {
 		print FILE "$line \n";
 		$flag =3;
-
 	   }
-
 	}
 
 	print "MEMCoin has finished investigation...\n";

@@ -9,7 +9,7 @@ use warnings;
 
 my $option = $ARGV[0];
 
-elsif ($option eq "-l")
+if ($option eq "-l")
 {
 	limeSetup();
 }
@@ -101,7 +101,7 @@ sub memorySearch{
 
 	  #regex not listed
 	  
-	   if($line =~ '')
+	   if($line =~ '^\w{52}\s\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z')
 	   {
 		print FILE "$line \n";
 		$flag =3;
